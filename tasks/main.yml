@@ -1,0 +1,37 @@
+---
+- name: Install yum utils
+  package:
+    name: yum-utils
+    state: latest
+
+- name: Add Docker repo
+  yum_repository:
+    name: docker
+    baseurl: https://yum.dockerproject.org/repo/main/centos/7
+    description: Docker repo
+    gpgcheck: 1
+    gpgkey: https://yum.dockerproject.org/gpg
+
+- name: Install Docker
+  yum:
+    update_cache: yes
+    name: docker-engine-1.12.4
+
+- name: Install FS overlay driver unit file
+  file:
+    state: directory
+    dest: /etc/systemd/system/docker.service.d
+
+- name: Install FS overlay driver unit file
+  copy:
+    dest: /etc/systemd/system/docker.service.d/override.conf
+    src: files/override.conf
+
+- name: reload systemd docker service
+  command: '/usr/bin/systemctl daemon-reload'
+
+- name: Docker Service
+  service:
+    name: docker
+    enabled: yes
+    state: restarted

@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  vars:
+    docker_version: docker-engine-1.11.2
+  roles:
+    - ansible-role-install-docker
