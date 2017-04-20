@@ -15,9 +15,9 @@
 - name: Install Docker
   yum:
     update_cache: yes
-    name: docker-engine-1.12.4
+    name: "{{ docker_version }}"
 
-- name: Install FS overlay driver unit file
+- name: Create necessary dir for FS overlay unit file
   file:
     state: directory
     dest: /etc/systemd/system/docker.service.d
