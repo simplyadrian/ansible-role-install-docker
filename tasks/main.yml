@@ -12,6 +12,13 @@
     gpgcheck: 1
     gpgkey: https://yum.dockerproject.org/gpg
 
+- name: Force uid for Docker user
+  user:
+    name: "docker"
+    uid: "{{ docker_uid }}"
+    system: yes
+  when: docker_uid is defined
+
 - name: Install Docker
   yum:
     update_cache: yes
