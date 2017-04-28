@@ -12,17 +12,13 @@
     gpgcheck: 1
     gpgkey: https://yum.dockerproject.org/gpg
 
-- name: Force uid for Docker user
-  user:
-    name: "docker"
-    uid: "{{ docker_uid }}"
-    system: yes
-  when: docker_uid is defined
-
 - name: Install Docker
   yum:
     update_cache: yes
     name: "{{ docker_version }}"
+
+- name: Change group id for docker 
+  shell: groupmod docker -g "{{ docker_group_id }}"
 
 - name: Create necessary dir for FS overlay unit file
   file:
